@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rune Stone</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Replaced Inter and Orbitron with Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base colors from the design inspiration */
+        :root {
+            --bg-color: #313642;
+            --light-shadow: #3c424e;
+            --dark-shadow: #262a32;
+            --text-color: #b0b8c4;
+            --text-color-dark: #8a93a2;
+            --accent-color: #e56b4a;
+            --accent-color-hover: #f27857;
+        }
+
+        /* Updated font-family to Poppins for a softer, more modern look */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+        
+        /* Main container styling */
+        .neumorphic-container {
+            background: var(--bg-color);
+            border-radius: 20px;
+            box-shadow: 12px 12px 24px var(--dark-shadow), -12px -12px 24px var(--light-shadow);
+        }
+
+        /* Styling for input fields and textareas to look "pressed in" */
+        .neumorphic-inset {
+            background: var(--bg-color);
+            border: none;
+            border-radius: 10px;
+            box-shadow: inset 6px 6px 12px var(--dark-shadow), inset -6px -6px 12px var(--light-shadow);
+            transition: box-shadow 0.2s ease-in-out;
+        }
+        .neumorphic-inset:focus {
+            outline: none;
+            box-shadow: inset 4px 4px 8px var(--dark-shadow), inset -4px -4px 8px var(--light-shadow), 0 0 0 2px var(--accent-color);
+        }
+
+        /* Styling for buttons to look "extruded" */
+        .neumorphic-button {
+            border: none;
+            border-radius: 10px;
+            background: var(--bg-color);
+            box-shadow: 6px 6px 12px var(--dark-shadow), -6px -6px 12px var(--light-shadow);
+            transition: all 0.2s ease-in-out;
+            font-weight: 600;
+        }
+        .neumorphic-button:hover {
+            box-shadow: 4px 4px 8px var(--dark-shadow), -4px -4px 8px var(--light-shadow);
+        }
+        .neumorphic-button:active {
+            box-shadow: inset 6px 6px 12px var(--dark-shadow), inset -6px -6px 12px var(--light-shadow);
+            transform: translateY(1px); /* Gives a slight press-down effect */
+        }
+        
+        /* Primary button style with accent color */
+        .btn-primary {
+            background: var(--accent-color);
+            color: white;
+            box-shadow: 6px 6px 12px var(--dark-shadow), -6px -6px 12px var(--light-shadow);
+        }
+        .btn-primary:hover {
+            background: var(--accent-color-hover);
+        }
+
+        /* Checkbox styling */
+        .checkbox-label {
+            transition: all 0.2s ease-in-out;
+            box-shadow: 5px 5px 10px var(--dark-shadow), -5px -5px 10px var(--light-shadow);
+        }
+        .checkbox-label:has(input:checked) {
+            box-shadow: inset 5px 5px 10px var(--dark-shadow), inset -5px -5px 10px var(--light-shadow);
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+        .checkbox-label:active {
+             box-shadow: inset 5px 5px 10px var(--dark-shadow), inset -5px -5px 10px var(--light-shadow);
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <div class="w-full max-w-2xl neumorphic-container p-6 sm:p-8">
+        
+        <header class="text-center mb-8">
+            <h1 class="text-3xl sm:text-4xl font-bold" style="color: var(--accent-color);">RUNE STONE</h1>
+            <p style="color: var(--text-color-dark);" class="mt-2 text-sm">Secure Text Transformation</p>
+        </header>
+
+        <div class="space-y-6">
+            <!-- Input Text -->
+            <div>
+                <label for="inputText" class="block text-sm font-medium mb-2 ml-1" style="color: var(--text-color-dark);">Input Text</label>
+                <!-- Changed placeholder text -->
+                <input type="text" id="inputText" class="w-full neumorphic-inset px-4 py-3 text-base" placeholder="e.g., BATMAN">
+            </div>
+
+            <!-- Secret Key -->
+            <div>
+                <label for="secretKey" class="block text-sm font-medium mb-2 ml-1" style="color: var(--text-color-dark);">Secret Key (FOR Vigenère) </label>
+                <input type="text" id="secretKey" class="w-full neumorphic-inset px-4 py-3" placeholder="e.g., CYBER">
+            </div>
+
+            <!-- Morphing Layers -->
+            <div>
+                <label class="block text-sm font-medium mb-3 ml-1" style="color: var(--text-color-dark);">Layers</label>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <label for="vigenere" class="checkbox-label text-center p-4 rounded-lg cursor-pointer text-sm">
+                        <input type="checkbox" id="vigenere" class="hidden">
+                        <span>Vigenère</span>
+                    </label>
+                    <label for="obfuscate" class="checkbox-label text-center p-4 rounded-lg cursor-pointer text-sm">
+                        <input type="checkbox" id="obfuscate" class="hidden" checked>
+                        <span>Obfuscate</span>
+                    </label>
+                    <label for="reverse" class="checkbox-label text-center p-4 rounded-lg cursor-pointer text-sm">
+                        <input type="checkbox" id="reverse" class="hidden">
+                        <span>Reverse</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 pt-2">
+                <button id="generateBtn" class="w-full neumorphic-button btn-primary py-3 px-4 font-semibold">
+                    Generate
+                </button>
+                <button id="decodeBtn" class="w-full neumorphic-button py-3 px-4 font-semibold" style="color: var(--text-color);">
+                    Decode
+                </button>
+            </div>
+
+            <!-- Output Area -->
+            <div>
+                <label for="outputText" class="block text-sm font-medium mb-2 ml-1" style="color: var(--text-color-dark);">Result</label>
+                <div class="relative">
+                    <textarea id="outputText" readonly class="w-full h-32 neumorphic-inset px-4 py-3 resize-none" placeholder="Morphed code will appear here..."></textarea>
+                    <button id="copyBtn" class="absolute top-4 right-4 text-gray-500 hover:text-white transition duration-200" title="Copy to clipboard">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    </button>
+                    <span id="copySuccess" class="absolute top-4 right-12 text-xs opacity-0 transition-opacity duration-300" style="color: var(--accent-color);">Copied!</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Creator Credit Footer -->
+        <footer class="text-center mt-8">
+            <p class="text-xs" style="color: var(--text-color-dark);">Made by WNGRTW WVOIG</p>
+        </footer>
+
+    </div>
+
+    <script>
+        // --- DOM Element References ---
+        const inputText = document.getElementById('inputText');
+        const secretKey = document.getElementById('secretKey');
+        const outputText = document.getElementById('outputText');
+        const generateBtn = document.getElementById('generateBtn');
+        const decodeBtn = document.getElementById('decodeBtn');
+        const copyBtn = document.getElementById('copyBtn');
+        const copySuccess = document.getElementById('copySuccess');
+
+        // Checkboxes
+        const useVigenere = document.getElementById('vigenere');
+        const useObfuscate = document.getElementById('obfuscate');
+        const useReverse = document.getElementById('reverse');
+
+        // --- Character Maps for Obfuscation ---
+        const charToSymbol = {
+            'A': '4', 'B': '8', 'C': '[', 'D': '|)', 'E': '3', 'F': '|=', 'G': '6', 'H': '#',
+            'I': '1', 'J': '_|', 'K': '|<', 'L': '|_', 'M': '^^', 'N': '|\\|', 'O': '0',
+            'P': '|*', 'Q': '(_,)', 'R': '|2', 'S': '5', 'T': '7', 'U': '(_)', 'V': '\\/',
+            'W': '\\/\\/', 'X': '><', 'Y': '`/', 'Z': '2',
+            '0': '(0)', '1': '(1)', '2': '(2)', '3': '(3)', '4': '(4)', '5': '(5)', '6': '(6)', '7': '(7)', '8': '(8)', '9': '(9)'
+        };
+        const symbolToChar = Object.fromEntries(Object.entries(charToSymbol).map(([k, v]) => [v, k]));
+
+        // --- Core Morphing Functions ---
+        function vigenere(text, key, encode = true) {
+            if (!key) return text;
+            let result = '';
+            let keyIndex = 0;
+            const upperKey = key.toUpperCase();
+            for (let i = 0; i < text.length; i++) {
+                const charCode = text.charCodeAt(i);
+                if (charCode >= 65 && charCode <= 90) {
+                    const keyChar = upperKey.charCodeAt(keyIndex % upperKey.length);
+                    const keyShift = keyChar - 65;
+                    let newCharCode = encode ? ((charCode - 65 + keyShift) % 26) + 65 : ((charCode - 65 - keyShift + 26) % 26) + 65;
+                    result += String.fromCharCode(newCharCode);
+                    keyIndex++;
+                } else {
+                    result += text[i];
+                }
+            }
+            return result;
+        }
+
+        function symbolicObfuscate(text, encode = true) {
+            const map = encode ? charToSymbol : symbolToChar;
+            const sortedKeys = Object.keys(map).sort((a, b) => b.length - a.length);
+            let result = '';
+            let i = 0;
+            while (i < text.length) {
+                let foundMatch = false;
+                for (const key of sortedKeys) {
+                    if (text.substring(i, i + key.length) === key) {
+                        result += map[key];
+                        i += key.length;
+                        foundMatch = true;
+                        break;
+                    }
+                }
+                if (!foundMatch) {
+                    result += text[i];
+                    i++;
+                }
+            }
+            return result;
+        }
+
+        function reverseString(text) {
+            return text.split('').reverse().join('');
+        }
+
+        // --- Event Handlers ---
+        function handleGenerate() {
+            let currentText = inputText.value.toUpperCase();
+            if (useObfuscate.checked) currentText = symbolicObfuscate(currentText, true);
+            if (useVigenere.checked) {
+                if (!secretKey.value) {
+                    showCustomAlert('Please enter a Secret Key for the Vigenère Cipher.');
+                    return;
+                }
+                currentText = vigenere(currentText, secretKey.value, true);
+            }
+            if (useReverse.checked) currentText = reverseString(currentText);
+            outputText.value = currentText;
+        }
+
+        function handleDecode() {
+            let currentText = inputText.value;
+            if (useReverse.checked) currentText = reverseString(currentText);
+            if (useVigenere.checked) {
+                if (!secretKey.value) {
+                    showCustomAlert('Please enter a Secret Key for the Vigenère Cipher.');
+                    return;
+                }
+                currentText = vigenere(currentText, secretKey.value, false);
+            }
+            if (useObfuscate.checked) currentText = symbolicObfuscate(currentText, false);
+            outputText.value = currentText;
+        }
+
+        function handleCopy() {
+            if (!outputText.value) return;
+            outputText.select();
+            document.execCommand('copy');
+            copySuccess.classList.remove('opacity-0');
+            setTimeout(() => copySuccess.classList.add('opacity-0'), 2000);
+        }
+
+        function showCustomAlert(message) {
+            const alertBox = document.createElement('div');
+            alertBox.className = 'fixed top-5 left-1/2 -translate-x-1/2 text-white px-6 py-3 rounded-lg shadow-lg transition-all duration-300';
+            alertBox.style.backgroundColor = 'var(--accent-color)';
+            alertBox.innerText = message;
+            document.body.appendChild(alertBox);
+            setTimeout(() => {
+                alertBox.style.opacity = '0';
+                alertBox.style.transform = 'translate(-50%, -20px)';
+                setTimeout(() => alertBox.remove(), 300);
+            }, 3000);
+        }
+
+        // --- Attach Event Listeners ---
+        generateBtn.addEventListener('click', handleGenerate);
+        decodeBtn.addEventListener('click', handleDecode);
+        copyBtn.addEventListener('click', handleCopy);
+
+        // --- Initial Generation on Load ---
+        // This will now start with a blank output, which is cleaner.
+        window.onload = handleGenerate;
+    </script>
+</body>
+</html>
